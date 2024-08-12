@@ -29,18 +29,18 @@ services:
 
     # MySQL
     mysql:
-        image: library/mysql:8.0
+        image: mysql:8.0
         container_name: mysql
         restart: always
         tty: true
         ports:
             - "3306:3306"
         environment:
-            MYSQL_DATABASE: "MYSQL_DATABASE" 
-            MYSQL_USER: "MYSQL_USER"
-            MYSQL_PASSWORD: "MYSQL_PASSWORD" 
-            MYSQL_ROOT_PASSWORD: "MYSQL_ROOT_PASSWORD" 
-            SERVICE_NAME: "MYSQL_SERVICE_NAME"
+            MYSQL_DATABASE: ${MYSQL_DATABASE} 
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} 
+            SERVICE_NAME: ${MYSQL_SERVICE_NAME}
         volumes:
             - mysqlData:/var/lib/mysql
             - mysqlFiles:/var/lib/mysql-files

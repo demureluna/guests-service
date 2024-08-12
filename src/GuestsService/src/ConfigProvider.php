@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace GuestsService;
 
+use GuestsService\Factory\AddGuestHandlerFactory;
+use GuestsService\Handler\AddGuestHandler;
+
 class ConfigProvider
 {
     /**
@@ -23,7 +26,7 @@ class ConfigProvider
     {
         return [
             'factories'  => [
-                
+                AddGuestHandler::class => AddGuestHandlerFactory::class,
             ],
         ];
     }

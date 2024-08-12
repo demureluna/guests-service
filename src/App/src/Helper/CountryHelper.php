@@ -13,22 +13,6 @@ use libphonenumber\PhoneNumberUtil as Util;
 class CountryHelper
 {
     /**
-     * Getting country code by phone number
-     * 
-     * @param string $phone Phone number
-     * 
-     * @return string
-     * @throws NumberParseException
-     */
-    public static function getCodeByPhone(string $phone): string
-    {
-        $util = Util::getInstance();  
-        $phoneNumber = $util->parse($phone);
-
-        return $util->getRegionCodeForNumber($phoneNumber);
-    }
-
-    /**
      * Getting full country name by ICU code
      * 
      * @param string $code ICU country code

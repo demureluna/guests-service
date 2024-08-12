@@ -6,6 +6,7 @@ namespace GuestsService\Service;
 
 use App\Database\Entities\GuestsEntity;
 use App\Helper\CountryHelper;
+use libphonenumber\NumberParseException;
 
 /**
  * Service class to work with API users
@@ -15,8 +16,11 @@ class GuestsService
     /** 
      * @var GuestsEntity $guestsEntity 
     */
-    private $guestsEntity;
+    private GuestsEntity $guestsEntity;
 
+    /**
+     * @param GuestsEntity $guestsEntity
+     */
     public function __construct(GuestsEntity $guestsEntity)
     {
         $this->guestsEntity = $guestsEntity;
@@ -24,13 +28,16 @@ class GuestsService
 
     /**
      * Saving guest to database
-     * 
+     *
      * @param array $requestData Guest data form request
-     * 
+     *
      * @return bool
+     * @throws NumberParseException
      */
     public function addGuest(array $requestData): bool
     {
+        $code = CountryHelper::getCodeByPhone($requestData['phone']);
+
         if (!isset($requestData['name']) || !isset($requestData['surname']) || !isset($requestData['phone'])) {
             return false;
         }

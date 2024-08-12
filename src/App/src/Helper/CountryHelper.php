@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
+use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil as Util;
 
 /**
@@ -17,6 +18,7 @@ class CountryHelper
      * @param string $phone Phone number
      * 
      * @return string
+     * @throws NumberParseException
      */
     public static function getCodeByPhone(string $phone): string
     {

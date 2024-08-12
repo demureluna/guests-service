@@ -25,7 +25,7 @@ class AddGuestHandler implements RequestHandlerInterface
      *
      * @param GuestsService $guestsService
      */
-    public function __construct($guestsService) {
+    public function __construct(GuestsService $guestsService) {
         $this->guestsService = $guestsService;
     }
 
@@ -40,16 +40,16 @@ class AddGuestHandler implements RequestHandlerInterface
     {
         $params = $request->getParsedBody();
 
-        // try {
+         try {
             $this->guestsService->addGuest($params);
             return new JsonResponse([
                 'result' => 'Success'
             ]);
-        // } catch (\Exception $e) {
-        //     return new JsonResponse([
-        //         'result' => 'Failed',
-        //         'error' => 'An error occurred during execution. Check the entered data.'
-        //     ]);
-        // }
+         } catch (\Exception $e) {
+             return new JsonResponse([
+                 'result' => 'Failed',
+                 'error' => 'An error occurred during execution. Check the entered data.'
+             ]);
+         }
     }
 }

@@ -6,6 +6,7 @@ namespace GuestsService\Service;
 
 use App\Database\Entities\GuestsEntity;
 use App\Helper\CountryHelper;
+use App\Helper\PhoneHelper;
 use libphonenumber\NumberParseException;
 
 /**
@@ -43,9 +44,21 @@ class GuestsService
         }
         
         if (!isset($requestData['country'])) {
-            $requestData['country'] = CountryHelper::getCodeByPhone($requestData['phone']);
+            $requestData['country'] = PhoneHelper::getCountryCodeByPhone($requestData['phone']);
         }
 
         return $this->guestsEntity->saveGuest($requestData);
+    }
+
+    /**
+     * @param string $guestInfo
+     *
+     * @return array
+     */
+    public function getGuest(string $guestInfo): array
+    {
+
+
+        return array();
     }
 }

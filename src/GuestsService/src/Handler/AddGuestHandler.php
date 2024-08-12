@@ -25,7 +25,8 @@ class AddGuestHandler implements RequestHandlerInterface
      *
      * @param GuestsService $guestsService
      */
-    public function __construct(GuestsService $guestsService) {
+    public function __construct(GuestsService $guestsService)
+    {
         $this->guestsService = $guestsService;
     }
 

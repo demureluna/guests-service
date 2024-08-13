@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberUtil as Util;
+use Locale;
 
 /**
  * Helper class to work with countries
@@ -13,30 +12,14 @@ use libphonenumber\PhoneNumberUtil as Util;
 class CountryHelper
 {
     /**
-     * Getting country code by phone number
-     * 
-     * @param string $phone Phone number
-     * 
-     * @return string
-     * @throws NumberParseException
-     */
-    public static function getCodeByPhone(string $phone): string
-    {
-        $util = Util::getInstance();  
-        $phoneNumber = $util->parse($phone);
-
-        return $util->getRegionCodeForNumber($phoneNumber);
-    }
-
-    /**
      * Getting full country name by ICU code
-     * 
-     * @param string $code ICU country code
-     * 
+     *
+     * @param string $countryCode
+     *
      * @return string
      */
-    public static function getFullCountryNameByCode(string $code): string
+    public static function getFullCountryNameByCode(string $countryCode): string
     {
-        return \Locale::getDisplayRegion($code);
+        return Locale::getDisplayRegion($countryCode);
     }
 }

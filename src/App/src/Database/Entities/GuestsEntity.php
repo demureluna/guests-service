@@ -39,10 +39,10 @@ class GuestsEntity implements GuestsInterface
     /**
      * @inheritDoc
      */
-    public function getGuest(string $email): array
+    public function getGuest(array $searchData): array
     {
         return $this->model->newQuery()
-            ->where('email', $email)
+            ->where($searchData['field'], $searchData['value'])
             ->get()
             ->first()
             ->jsonSerialize();

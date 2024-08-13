@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace GuestsService\Handler;
 
+use App\Helper\PhoneHelper;
 use Laminas\Diactoros\Response\JsonResponse;
 use GuestsService\Service\GuestsService;
+use libphonenumber\NumberParseException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -13,7 +15,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * A handler class, for handling authorization requests
  */
-class AddGuestHandler extends BaseHandler implements RequestHandlerInterface
+class GetGuestHandler extends BaseHandler implements RequestHandlerInterface
 {
     /**
      * @inheritDoc
@@ -25,21 +27,14 @@ class AddGuestHandler extends BaseHandler implements RequestHandlerInterface
 
     /**
      * @inheritDoc
+     *
+     * @throws NumberParseException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $params = $request->getParsedBody();
+        $params = $request->getQueryParams();
+        $guest = $this->guestsService->getGuest($params);
 
-//         try {
-            $this->guestsService->addGuest($params);
-            return new JsonResponse([
-                'result' => 'Success'
-            ]);
-//         } catch (\Exception $e) {
-//             return new JsonResponse([
-//                 'result' => 'Failed',
-//                 'error' => 'An error occurred during execution. Check the entered data.'
-//             ]);
-//         }
+        return new JsonResponse(['guestData' => $guest]);
     }
 }

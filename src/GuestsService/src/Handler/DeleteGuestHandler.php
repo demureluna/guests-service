@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace GuestsService\Handler;
 
-use App\Helper\PhoneHelper;
 use Laminas\Diactoros\Response\JsonResponse;
 use GuestsService\Service\GuestsService;
-use libphonenumber\NumberParseException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;

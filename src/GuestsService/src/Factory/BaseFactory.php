@@ -9,7 +9,6 @@ use GuestsService\Service\GuestsService;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Illuminate\Database\Capsule\Manager;
-use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Base class for factories

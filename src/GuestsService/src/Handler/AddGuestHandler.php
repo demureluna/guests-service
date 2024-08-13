@@ -13,44 +13,33 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * A handler class, for handling authorization requests
  */
-class AddGuestHandler implements RequestHandlerInterface
+class AddGuestHandler extends BaseHandler implements RequestHandlerInterface
 {
     /**
-     * @var GuestsService $guestsService
-     */
-    private GuestsService $guestsService;
-
-    /**
-     * Constructor
-     *
-     * @param GuestsService $guestsService
+     * @inheritDoc
      */
     public function __construct(GuestsService $guestsService)
     {
-        $this->guestsService = $guestsService;
+        parent::__construct($guestsService);
     }
 
     /**
-     * Handler
-     *
-     * @param ServerRequestInterface $request Instance of request
-     *
-     * @return ResponseInterface Server json response
+     * @inheritDoc
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $params = $request->getParsedBody();
 
-         try {
+//         try {
             $this->guestsService->addGuest($params);
             return new JsonResponse([
                 'result' => 'Success'
             ]);
-         } catch (\Exception $e) {
-             return new JsonResponse([
-                 'result' => 'Failed',
-                 'error' => 'An error occurred during execution. Check the entered data.'
-             ]);
-         }
+//         } catch (\Exception $e) {
+//             return new JsonResponse([
+//                 'result' => 'Failed',
+//                 'error' => 'An error occurred during execution. Check the entered data.'
+//             ]);
+//         }
     }
 }

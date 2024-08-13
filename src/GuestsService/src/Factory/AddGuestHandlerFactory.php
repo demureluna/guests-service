@@ -22,9 +22,6 @@ class AddGuestHandlerFactory extends BaseFactory
     {
         parent::__invoke($container);
 
-        $guestsEntity = new GuestsEntity();
-        $guestsService = new GuestsService($guestsEntity);
-
-        return new AddGuestHandler($guestsService);
+        return new AddGuestHandler($this->guestsService);
     }
 }

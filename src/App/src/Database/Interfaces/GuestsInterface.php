@@ -22,7 +22,7 @@ interface GuestsInterface
      *
      * @return array
      */
-    public function getGuest(string $email): array;
+    public function getGuest(array $searchData): array;
 
     /**
      * Updating guest data in database

@@ -30,16 +30,16 @@ class AddGuestHandler extends BaseHandler implements RequestHandlerInterface
     {
         $params = $request->getParsedBody();
 
-//         try {
+         try {
             $this->guestsService->addGuest($params);
             return new JsonResponse([
                 'result' => 'Success'
             ]);
-//         } catch (\Exception $e) {
-//             return new JsonResponse([
-//                 'result' => 'Failed',
-//                 'error' => 'An error occurred during execution. Check the entered data.'
-//             ]);
-//         }
+         } catch (\Exception $e) {
+             return new JsonResponse([
+                 'result' => 'Failed',
+                 'error' => 'An error occurred during execution. Check the entered data.'
+             ]);
+         }
     }
 }

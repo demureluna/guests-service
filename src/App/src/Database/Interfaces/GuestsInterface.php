@@ -27,19 +27,19 @@ interface GuestsInterface
     /**
      * Updating guest data in database
      *
-     * @param string $guestData
+     * @param array $guestData
      * @param array $updateData
      *
-     * @return array
+     * @return int
      */
-    public function updateGuest(string $guestData, array $updateData): int;
+    public function updateGuest(array $guestData, array $updateData): int;
 
     /**
      * Deleting guest from database
      *
-     * @param string $guestData
+     * @param array $guestData
      *
      * @return mixed
      */
-    public function deleteGuest(string $guestData): array;
+    public function deleteGuest(array $guestData): int;
 }

@@ -73,7 +73,37 @@ class GuestsService
      */
     public function getGuest(array $guestInfo): array|bool
     {
-        $searchValue = [];
+        $searchValue = $this->getSearchArray($guestInfo);
+
+        return $searchValue
+            ? $this->guestsEntity->getGuest($searchValue)
+            : false;
+    }
+
+    /**
+     * @param array $guestInfo
+     *
+     * @return int|bool
+     * @throws NumberParseException
+     */
+    public function deleteGuest(array $guestInfo): int|bool
+    {
+        $searchValue = $this->getSearchArray($guestInfo);
+
+        return $searchValue
+            ? $this->guestsEntity->deleteGuest($searchValue)
+            : false;
+    }
+
+    /**
+     * @param array $guestInfo
+     *
+     * @return array|bool
+     * @throws NumberParseException
+     */
+    private function getSearchArray(array $guestInfo): array|bool
+    {
+        $searchValue = null;
 
         if (isset($guestInfo['phone'])) {
             $phone = PhoneHelper::validatePhone($guestInfo['phone']);
@@ -85,10 +115,11 @@ class GuestsService
 
             $searchValue['field'] = 'email';
             $searchValue['value'] = $email;
-        } else {
-            return false;
+        } elseif (isset($guestInfo['id'])) {
+            $searchValue['field'] = 'id';
+            $searchValue['value'] = (int)$guestInfo['id'];
         }
 
-        return $this->guestsEntity->getGuest($searchValue);
+        return $searchValue ?? false;
     }
 }

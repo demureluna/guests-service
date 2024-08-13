@@ -18,4 +18,10 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         GuestsService\Handler\GetGuestHandler::class,
         'api.guests.get'
     );
+
+    $app->delete(
+        '/api/guests/delete',
+        GuestsService\Handler\DeleteGuestHandler::class,
+        'api.guests.delete'
+    );
 };

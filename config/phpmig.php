@@ -23,7 +23,7 @@ $capsule->setAsGlobal();
 
 $capsule->bootEloquent();
 
-$container['phpmig.adapter'] = new Adapter\File\Flat(__DIR__ . DIRECTORY_SEPARATOR . 'migrations/.migrations.log');
-$container['phpmig.migrations_path'] = __DIR__ . DIRECTORY_SEPARATOR . 'migrations';
+$container['phpmig.adapter'] = new Adapter\File\Flat(__DIR__ . DIRECTORY_SEPARATOR . '../migrations/.migrations.log');
+$container['phpmig.migrations_path'] = __DIR__ . DIRECTORY_SEPARATOR . '../migrations';
 
 return $container;

@@ -46,10 +46,5 @@
             "App\\": "src/App/src/",
             "GuestsService\\": "src/GuestsService/src/"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "AppTest\\": "test/AppTest/"
-        }
     }
 }

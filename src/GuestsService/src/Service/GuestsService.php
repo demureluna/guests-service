@@ -38,7 +38,11 @@ class GuestsService
      */
     public function addGuest(array $requestData): bool
     {
-        if (!isset($requestData['name']) || !isset($requestData['surname']) || !isset($requestData['phone'])) {
+        if (
+            !isset($requestData['name'])
+            || !isset($requestData['surname'])
+            || !isset($requestData['phone'])
+        ) {
             return false;
         }
 
@@ -83,12 +87,41 @@ class GuestsService
     /**
      * @param array $guestInfo
      *
+     * @return int
+     * @throws NumberParseException
+     */
+    public function updateGuest(array $guestInfo): int
+    {
+        $updateData = [];
+        $guestId = $guestInfo['id'] ?? null;
+        unset($guestInfo['id']);
+
+        foreach ($guestInfo as $key => $value) {
+            if ($key == 'phone') {
+                $phone = PhoneHelper::validatePhone($value);
+                $updateData[$key] = $phone;
+                continue;
+            } elseif ($key == 'email') {
+                $email = EmailHelper::validateEmail($value);
+                $updateData[$key] = $email;
+                continue;
+            }
+
+            $updateData[$key] = $value;
+        }
+
+        return $this->guestsEntity->updateGuest((int)$guestId, $updateData);
+    }
+
+    /**
+     * @param array $guestInfo
+     *
      * @return int|bool
      * @throws NumberParseException
      */
     public function deleteGuest(array $guestInfo): int|bool
     {
-        $searchValue = $this->getSearchArray($guestInfo);
+        $searchValue = $guestInfo['id'] ?? null;
 
         return $searchValue
             ? $this->guestsEntity->deleteGuest($searchValue)

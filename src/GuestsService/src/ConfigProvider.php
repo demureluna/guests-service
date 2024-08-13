@@ -7,9 +7,11 @@ namespace GuestsService;
 use GuestsService\Factory\AddGuestHandlerFactory;
 use GuestsService\Factory\DeleteGuestHandlerFactory;
 use GuestsService\Factory\GetGuestHandlerFactory;
+use GuestsService\Factory\UpdateGuestHandlerFactory;
 use GuestsService\Handler\AddGuestHandler;
 use GuestsService\Handler\DeleteGuestHandler;
 use GuestsService\Handler\GetGuestHandler;
+use GuestsService\Handler\UpdateGuestHandler;
 
 class ConfigProvider
 {
@@ -33,6 +35,7 @@ class ConfigProvider
                 AddGuestHandler::class => AddGuestHandlerFactory::class,
                 GetGuestHandler::class => GetGuestHandlerFactory::class,
                 DeleteGuestHandler::class => DeleteGuestHandlerFactory::class,
+                UpdateGuestHandler::class => UpdateGuestHandlerFactory::class,
             ],
         ];
     }

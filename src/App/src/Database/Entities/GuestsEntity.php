@@ -51,20 +51,20 @@ class GuestsEntity implements GuestsInterface
     /**
      * @inheritDoc
      */
-    public function updateGuest(array $guestData, array $updateData): int
+    public function updateGuest(int $guestId, array $updateData): int
     {
         return $this->model->newQuery()
-            ->where($guestData['field'], $guestData['value'])
+            ->where('id', $guestId)
             ->update($updateData);
     }
 
     /**
      * @inheritDoc
      */
-    public function deleteGuest(array $guestData): int
+    public function deleteGuest(int $guestId): int
     {
         return $this->model->newQuery()
-            ->where($guestData['field'], $guestData['value'])
+            ->where('id', $guestId)
             ->delete();
     }
 }

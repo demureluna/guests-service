@@ -30,7 +30,7 @@ class UpdateGuestHandler extends BaseHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $params = $request->getParsedBody();
+        $params = $request->getQueryParams();
 
         try {
             $this->guestsService->updateGuest($params);

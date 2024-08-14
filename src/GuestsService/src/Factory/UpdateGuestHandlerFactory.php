@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace GuestsService\Factory;
 
+use GuestsService\Handler\UpdateGuestHandler;
 use Psr\Container\ContainerInterface;
-use GuestsService\Handler\AddGuestHandler;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Factory, invoking AddGuestHandler
  */
-class AddGuestHandlerFactory extends BaseFactory
+class UpdateGuestHandlerFactory extends BaseFactory
 {
     /**
      * @inheritdoc
@@ -20,6 +20,6 @@ class AddGuestHandlerFactory extends BaseFactory
     {
         parent::__invoke($container);
 
-        return new AddGuestHandler($this->guestsService);
+        return new UpdateGuestHandler($this->guestsService);
     }
 }

@@ -6,7 +6,7 @@ use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
 
-return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
+return static function (Application $app): void {
     $app->post(
         '/api/guests/add',
         GuestsService\Handler\AddGuestHandler::class,
@@ -17,6 +17,12 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         '/api/guests/get',
         GuestsService\Handler\GetGuestHandler::class,
         'api.guests.get'
+    );
+
+    $app->patch(
+        '/api/guests/update',
+        GuestsService\Handler\UpdateGuestHandler::class,
+        'api.guests.update'
     );
 
     $app->delete(

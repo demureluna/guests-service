@@ -32,14 +32,14 @@ interface GuestsInterface
      *
      * @return int
      */
-    public function updateGuest(array $guestData, array $updateData): int;
+    public function updateGuest(int $guestId, array $updateData): int;
 
     /**
      * Deleting guest from database
      *
-     * @param array $guestData
+     * @param int $guestId
      *
      * @return mixed
      */
-    public function deleteGuest(array $guestData): int;
+    public function deleteGuest(int $guestId): int;
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GuestsService\Handler;
 
+use App\Helper\JsonHelper;
+use Exception;
 use Laminas\Diactoros\Response\JsonResponse;
 use GuestsService\Service\GuestsService;
 use Psr\Http\Message\ResponseInterface;
@@ -31,15 +33,11 @@ class AddGuestHandler extends BaseHandler implements RequestHandlerInterface
         $params = $request->getParsedBody();
 
          try {
-            $this->guestsService->addGuest($params);
-            return new JsonResponse([
-                'result' => 'Success'
-            ]);
-         } catch (\Exception $e) {
-             return new JsonResponse([
-                 'result' => 'Failed',
-                 'error' => 'An error occurred during execution. Check the entered data.'
-             ]);
+            $response = $this->guestsService->addGuest($params);
+            return new JsonResponse($response);
+         } catch (Exception $e) {
+             $response = JsonHelper::formatErrorResponse((string)$e->getCode(), $e->getMessage());
+             return new JsonResponse($response);
          }
     }
 }

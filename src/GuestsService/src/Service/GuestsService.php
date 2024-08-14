@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace GuestsService\Service;
 
 use App\Database\Entities\GuestsEntity;
+use App\Exception\InvalidParameterException;
+use App\Exception\MySQLException;
+use App\Exception\NotEnoughParametersException;
 use App\Helper\CountryHelper;
 use App\Helper\EmailHelper;
+use App\Helper\JsonHelper;
 use App\Helper\PhoneHelper;
 use libphonenumber\NumberParseException;
 
@@ -33,18 +37,23 @@ class GuestsService
      *
      * @param array $requestData Guest data form request
      *
-     * @return bool
-     * @throws NumberParseException
+     * @return array
+     * @throws NotEnoughParametersException|MySQLException|InvalidParameterException
      */
-    public function addGuest(array $requestData): bool
+    public function addGuest(array $requestData): array
     {
         if (
             !isset($requestData['name'])
             || !isset($requestData['surname'])
             || !isset($requestData['phone'])
         ) {
-            return false;
+            throw new NotEnoughParametersException();
         }
+
+        $phone = PhoneHelper::validatePhone($requestData['phone']);
+        $email = isset($requestData['email'])
+            ? EmailHelper::validateEmail($requestData['email'])
+            : null;
 
         if (!isset($requestData['country'])) {
             $code = PhoneHelper::getRegionCodeByPhone($requestData['phone']);
@@ -52,11 +61,6 @@ class GuestsService
         } else {
             $country = $requestData['country'];
         }
-
-        $phone = PhoneHelper::validatePhone($requestData['phone']);
-        $email = isset($requestData['email'])
-            ? EmailHelper::validateEmail($requestData['email'])
-            : null;
 
         $guestData = [
             'name' => $requestData['name'],
@@ -66,31 +70,50 @@ class GuestsService
             'country' => $country,
         ];
 
-        return $this->guestsEntity->saveGuest($guestData);
+        $result = $this->guestsEntity->saveGuest($guestData);
+
+        if ($result) {
+            $responseData = [
+                'fields' => array_keys($guestData),
+                'items' => $guestData,
+            ];
+
+            return JsonHelper::formatResponseWithData($responseData);
+        } else {
+            throw new InvalidParameterException();
+        }
     }
 
     /**
      * @param array $guestInfo
      *
      * @return array|bool
-     * @throws NumberParseException
+     *
+     * @throws InvalidParameterException
+     * @throws NotEnoughParametersException
+     * @throws MySQLException
      */
     public function getGuest(array $guestInfo): array|bool
     {
         $searchValue = $this->getSearchArray($guestInfo);
+        $result = $this->guestsEntity->getGuest($searchValue);
 
-        return $searchValue
-            ? $this->guestsEntity->getGuest($searchValue)
-            : false;
+        $responseData = [
+            'fields' => array_keys($result),
+            'id' => $result['id'],
+            'items' => $result,
+        ];
+
+        return JsonHelper::formatResponseWithData($responseData);
     }
 
     /**
      * @param array $guestInfo
      *
-     * @return int
-     * @throws NumberParseException
+     * @return array
+     * @throws InvalidParameterException|MySQLException
      */
-    public function updateGuest(array $guestInfo): int
+    public function updateGuest(array $guestInfo): array
     {
         $updateData = [];
         $guestId = $guestInfo['id'] ?? null;
@@ -109,32 +132,51 @@ class GuestsService
 
             $updateData[$key] = $value;
         }
+        $result = $this->guestsEntity->updateGuest((int)$guestId, $updateData);
 
-        return $this->guestsEntity->updateGuest((int)$guestId, $updateData);
+        if ((bool)$result) {
+            $responseData = [
+                'fields' => array_keys($updateData),
+                'id' => $guestId,
+                'items' => $updateData,
+            ];
+
+            return JsonHelper::formatResponseWithData($responseData);
+        } else {
+            throw new InvalidParameterException();
+        }
     }
 
     /**
      * @param array $guestInfo
      *
      * @return int|bool
-     * @throws NumberParseException
+     * @throws MySQLException
      */
-    public function deleteGuest(array $guestInfo): int|bool
+    public function deleteGuest(array $guestInfo): array
     {
         $searchValue = $guestInfo['id'] ?? null;
+        $result = $this->guestsEntity->deleteGuest((int)$searchValue);
 
-        return $searchValue
-            ? $this->guestsEntity->deleteGuest($searchValue)
-            : false;
+        if ((bool)$result) {
+            $responseData = [
+                'id' => $searchValue,
+            ];
+
+            return JsonHelper::formatDeleteResponse($responseData);
+        } else {
+            throw new InvalidParameterException();
+        }
     }
 
     /**
      * @param array $guestInfo
      *
-     * @return array|bool
-     * @throws NumberParseException
+     * @return array
+     * @throws InvalidParameterException
+     * @throws NotEnoughParametersException
      */
-    private function getSearchArray(array $guestInfo): array|bool
+    private function getSearchArray(array $guestInfo): array
     {
         $searchValue = null;
 
@@ -151,8 +193,10 @@ class GuestsService
         } elseif (isset($guestInfo['id'])) {
             $searchValue['field'] = 'id';
             $searchValue['value'] = (int)$guestInfo['id'];
+        } else {
+            throw new NotEnoughParametersException();
         }
 
-        return $searchValue ?? false;
+        return $searchValue;
     }
 }

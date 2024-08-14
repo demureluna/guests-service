@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace GuestsService\Handler;
 
+use App\Helper\JsonHelper;
+use Exception;
 use Laminas\Diactoros\Response\JsonResponse;
 use GuestsService\Service\GuestsService;
-use libphonenumber\NumberParseException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -26,14 +27,17 @@ class GetGuestHandler extends BaseHandler implements RequestHandlerInterface
 
     /**
      * @inheritDoc
-     *
-     * @throws NumberParseException
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $params = $request->getQueryParams();
-        $guest = $this->guestsService->getGuest($params);
 
-        return new JsonResponse(['guestData' => $guest]);
+        try {
+            $response = $this->guestsService->getGuest($params);
+            return new JsonResponse($response);
+        } catch (Exception $e) {
+            $response = JsonHelper::formatErrorResponse((string)$e->getCode(), $e->getMessage());
+            return new JsonResponse($response);
+        }
     }
 }

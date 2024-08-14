@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
+use App\Exception\InvalidParameterException;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil as Util;
 
@@ -18,21 +19,25 @@ class PhoneHelper
      * @param string $phone Phone number
      *
      * @return string
-     * @throws NumberParseException
+     * @throws InvalidParameterException
      */
     public static function validatePhone(string $phone): string
     {
-        $phone = self::preparePhone($phone);
-        $phonePattern = '~\b\d[- /\d]*\d\b~';
+        try {
+            $phone = self::preparePhone($phone);
+            $phonePattern = '~\b\d[- /\d]*\d\b~';
 
-        $phoneUtil = Util::getInstance();
-        $phoneNumber = $phoneUtil->parse($phone);
+            $phoneUtil = Util::getInstance();
+            $phoneNumber = $phoneUtil->parse($phone);
 
-        if (
-            (bool)preg_match($phonePattern, $phone) === true
-            && $phoneUtil->isValidNumber($phoneNumber) === true
-        ) {
-            return self::formatPhone($phone);
+            if (
+                (bool)preg_match($phonePattern, $phone) === true
+                && $phoneUtil->isValidNumber($phoneNumber) === true
+            ) {
+                return self::formatPhone($phone);
+            }
+        } catch (\Exception $e) {
+            throw new InvalidParameterException($e->getMessage());
         }
 
         return "Incorrect phone format";
@@ -44,14 +49,18 @@ class PhoneHelper
      * @param string $phone Phone number
      *
      * @return string
-     * @throws NumberParseException
+     * @throws InvalidParameterException
      */
     public static function getRegionCodeByPhone(string $phone): string
     {
-        $util = Util::getInstance();
-        $phoneNumber = $util->parse($phone);
+        try {
+            $util = Util::getInstance();
+            $phoneNumber = $util->parse($phone);
 
-        return $util->getRegionCodeForNumber($phoneNumber);
+            return $util->getRegionCodeForNumber($phoneNumber);
+        } catch (\Exception $e) {
+            throw new InvalidParameterException($e->getMessage());
+        }
     }
 
     /**

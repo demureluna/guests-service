@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
+use App\Exception\InvalidParameterException;
 use Locale;
 
 /**
@@ -20,6 +21,10 @@ class CountryHelper
      */
     public static function getFullCountryNameByCode(string $countryCode): string
     {
-        return Locale::getDisplayRegion($countryCode);
+        try {
+            return Locale::getDisplayRegion($countryCode);
+        } catch (\Exception $e) {
+            throw new InvalidParameterException();
+        }
     }
 }

@@ -6,16 +6,13 @@ namespace App;
 
 /**
  * The configuration provider for the App module
- *
- * @see https://docs.laminas.dev/laminas-component-installer/
  */
 class ConfigProvider
 {
     /**
-     * Returns the configuration array
+     * Collecting all configuration data
      *
-     * To add a bit of a structure, each section is defined in a separate
-     * method which returns an array with its configuration.
+     * @return array[]
      */
     public function __invoke(): array
     {
@@ -25,7 +22,9 @@ class ConfigProvider
     }
 
     /**
-     * Returns the container dependencies
+     * Collecting all dependencies in module
+     *
+     * @return array[]
      */
     public function getDependencies(): array
     {

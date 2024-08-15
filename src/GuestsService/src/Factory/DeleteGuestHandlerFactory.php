@@ -20,6 +20,6 @@ class DeleteGuestHandlerFactory extends BaseFactory
     {
         parent::__invoke($container);
 
-        return new DeleteGuestHandler($this->guestsService);
+        return new DeleteGuestHandler($this->guestsService, $this->logger, $this->errorLogger);
     }
 }

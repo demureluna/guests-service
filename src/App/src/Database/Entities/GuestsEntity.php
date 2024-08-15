@@ -9,6 +9,9 @@ use App\Database\Models\Guests;
 use App\Exception\MySQLException;
 use Exception;
 
+/**
+ * Class, that contains business-logic from model
+ */
 class GuestsEntity implements GuestsInterface
 {
     /** 

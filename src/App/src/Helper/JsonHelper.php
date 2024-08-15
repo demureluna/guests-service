@@ -6,11 +6,9 @@ namespace App\Helper;
 
 use App\Constant\JsonConstant;
 use App\Constant\ResponseConstant;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberUtil as Util;
 
 /**
- * Helper class to formatting Json responces
+ * Helper class to formatting Json responses
  */
 class JsonHelper
 {
@@ -34,6 +32,13 @@ class JsonHelper
         ];
     }
 
+    /**
+     * Formatting received data into API response
+     *
+     * @param array $data
+     *
+     * @return array
+     */
     public static function formatDeleteResponse(array $data): array
     {
         return [
@@ -48,6 +53,14 @@ class JsonHelper
         ];
     }
 
+    /**
+     * Formatting received data into API response
+     *
+     * @param string $code
+     * @param string $message
+     *
+     * @return array
+     */
     public static function formatErrorResponse(string $code, string $message): array
     {
         return [

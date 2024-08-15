@@ -1,7 +1,5 @@
-version: '3.5'
- 
 services:
-    # PHP-FPM
+    # PHP-FPM container (building from project Dockerfile)
     guestsservice:
         build: .
         restart: always
@@ -11,7 +9,7 @@ services:
             - .:/var/www/application
         container_name: guestsservice
          
-    # Nginx
+    # Nginx container
     nginx:
         image: nginx:alpine
         container_name: nginx
@@ -27,7 +25,7 @@ services:
             - "80:80"
             - "443:443"
 
-    # MySQL
+    # MySQL container
     mysql:
         image: mysql:8.0
         container_name: mysql
@@ -45,7 +43,7 @@ services:
             - mysqlData:/var/lib/mysql
             - mysqlFiles:/var/lib/mysql-files
 
-#Volumes
+#Volumes for MySQL container
 volumes:
     mysqlData:
         driver: local

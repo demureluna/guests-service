@@ -5,26 +5,41 @@ declare(strict_types=1);
 namespace GuestsService\Factory;
 
 use App\Database\Entities\GuestsEntity;
+use App\Logger\Logger;
 use GuestsService\Service\GuestsService;
+use Monolog\Logger as MonologLogger;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Illuminate\Database\Capsule\Manager;
 
 /**
- * Base class for factories
+ * Factories class, that contains all base methods and properties
  */
-abstract class BaseFactory
+class BaseFactory
 {
+    /**
+     * @var GuestsEntity $guestsEntity
+     */
     protected GuestsEntity $guestsEntity;
 
+    /**
+     * @var GuestsService $guestsService
+     */
     protected GuestsService $guestsService;
+
+    /**
+     * @var MonologLogger $logger
+     */
+    protected MonologLogger $logger;
+
+    /**
+     * @var MonologLogger $errorLogger
+     */
+    protected MonologLogger $errorLogger;
 
     /**
      * Factory invoker
      *
      * @param ContainerInterface $container DI container
-     *
-     * @return RequestHandlerInterface Instance of requests handling class
      */
     public function __invoke(ContainerInterface $container)
     {
@@ -37,5 +52,9 @@ abstract class BaseFactory
 
         $this->guestsEntity = new GuestsEntity();
         $this->guestsService = new GuestsService($this->guestsEntity);
+
+        $logger = new Logger();
+        $this->logger = $logger->getLogger();
+        $this->errorLogger = $logger->getErrorLogger();
     }
 }

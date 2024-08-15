@@ -1,7 +1,6 @@
 <?php
 
-use \Phpmig\Adapter;
-use Symfony\Component\Dotenv\Dotenv;
+use Phpmig\Adapter;
 
 $container = new ArrayObject();
 

@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Helper;
 
 use App\Exception\InvalidParameterException;
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberUtil as Util;
 
 /**
- * Helper class to work with countries
+ * Helper class to work with email data
  */
 class EmailHelper
 {
@@ -19,6 +17,7 @@ class EmailHelper
      * @param string $email
      *
      * @return string
+     * @throws InvalidParameterException
      */
     public static function validateEmail(string $email): string
     {

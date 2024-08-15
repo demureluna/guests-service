@@ -12,7 +12,6 @@ use App\Helper\CountryHelper;
 use App\Helper\EmailHelper;
 use App\Helper\JsonHelper;
 use App\Helper\PhoneHelper;
-use libphonenumber\NumberParseException;
 
 /**
  * Service class to work with API users
@@ -25,6 +24,8 @@ class GuestsService
     private GuestsEntity $guestsEntity;
 
     /**
+     * Class constructor
+     *
      * @param GuestsEntity $guestsEntity
      */
     public function __construct(GuestsEntity $guestsEntity)
@@ -85,6 +86,8 @@ class GuestsService
     }
 
     /**
+     * Fetching guest from database
+     *
      * @param array $guestInfo
      *
      * @return array|bool
@@ -108,6 +111,8 @@ class GuestsService
     }
 
     /**
+     * Updating guest in database
+     *
      * @param array $guestInfo
      *
      * @return array
@@ -148,9 +153,13 @@ class GuestsService
     }
 
     /**
+     * Deleting guest from database
+     *
      * @param array $guestInfo
      *
-     * @return int|bool
+     * @return array
+     *
+     * @throws InvalidParameterException
      * @throws MySQLException
      */
     public function deleteGuest(array $guestInfo): array
@@ -170,9 +179,12 @@ class GuestsService
     }
 
     /**
+     * Iternal method, building search array for fetching guest method
+     *
      * @param array $guestInfo
      *
      * @return array
+     *
      * @throws InvalidParameterException
      * @throws NotEnoughParametersException
      */

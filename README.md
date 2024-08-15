@@ -167,7 +167,7 @@ git clone https://github.com/demureluna/guests-service.git
 
 Затем, для развертки можно запустить скрипт:
 ```
-bash ./startup.sh
+sudo bash ./startup.sh
 ```
 
 Или выполнить последовательность команд:
@@ -175,6 +175,7 @@ bash ./startup.sh
 docker build -it guestsservice .
 docker compose up -d
 docker exec -it guestsservice vendor/bin/phpmig migrate
+docker exec -it guestsservice chmod -R 777 /var/
 ```
 
 ## Структура проекта
@@ -203,6 +204,8 @@ docker exec -it guestsservice vendor/bin/phpmig migrate
             - Helper - папка, хранящая общие хелперы для работы с данными;
                 - PhoneHelper.php - хелпер, валидирующий номера телефонов. Для парсинга номера и валидации используется библиотека **libphonenumber**;
                 - JsonHelper.php - хелпер, форматирующий JSON-ответы. В качестве рефернса для формата использовался **Google JSON Style Gude**;
+            - Logger
+                - Logger.php - класс логгера, собирающий и инициализирующий логгеры запросов и ошибок 
     - GuestsService - папка модуля GuestsService, реализующего API для CRUD-операций над гостями;
         - src
             - Factory - папка, хранящая фабрики обработчиков, собирающие для них объекты, и вызывающие их;

@@ -6,6 +6,9 @@ namespace App\Database\Interfaces;
 
 use App\Exception\MySQLException;
 
+/**
+ * Interface for model entity (business-logic class)
+ */
 interface GuestsInterface
 {
     /**

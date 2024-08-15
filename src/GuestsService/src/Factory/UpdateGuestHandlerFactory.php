@@ -20,6 +20,6 @@ class UpdateGuestHandlerFactory extends BaseFactory
     {
         parent::__invoke($container);
 
-        return new UpdateGuestHandler($this->guestsService);
+        return new UpdateGuestHandler($this->guestsService, $this->logger, $this->errorLogger);
     }
 }

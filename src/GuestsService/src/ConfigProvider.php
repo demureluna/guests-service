@@ -13,10 +13,15 @@ use GuestsService\Handler\DeleteGuestHandler;
 use GuestsService\Handler\GetGuestHandler;
 use GuestsService\Handler\UpdateGuestHandler;
 
+/**
+ * The configuration provider for the GuestsService module
+ */
 class ConfigProvider
 {
     /**
-     * @return array
+     * Collecting all configuration data
+     *
+     * @return array[]
      */
     public function __invoke(): array
     {
@@ -26,7 +31,9 @@ class ConfigProvider
     }
 
     /**
-     * Returns the container dependencies
+     * Collecting all dependencies in module
+     *
+     * @return array[]
      */
     public function getDependencies(): array
     {

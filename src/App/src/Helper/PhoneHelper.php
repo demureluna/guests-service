@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Helper;
 
 use App\Exception\InvalidParameterException;
-use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil as Util;
 
 /**
- * Helper class to work with countries
+ * Helper class to work with phones data
  */
 class PhoneHelper
 {
@@ -44,7 +43,7 @@ class PhoneHelper
     }
 
     /**
-     * Getting country code by phone number
+     * Getting region code by phone number
      *
      * @param string $phone Phone number
      *

@@ -3,3 +3,4 @@ vendor/
 .idea/
 composer.lock
 /migrations/*.log
+/data/log

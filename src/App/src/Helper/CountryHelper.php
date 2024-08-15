@@ -8,7 +8,7 @@ use App\Exception\InvalidParameterException;
 use Locale;
 
 /**
- * Helper class to work with countries
+ * Helper class to work with countries data
  */
 class CountryHelper
 {
@@ -18,6 +18,7 @@ class CountryHelper
      * @param string $countryCode
      *
      * @return string
+     * @throws InvalidParameterException
      */
     public static function getFullCountryNameByCode(string $countryCode): string
     {
